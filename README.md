@@ -7,6 +7,7 @@ KoboReader is a small Windows desktop application that provides a focused window
 - Opens the Kobo library at `https://www.kobo.com/nz/en/library/books`.
 - Uses a native Windows desktop window instead of a separate browser tab.
 - Opens links that request a new browser window in the system default browser.
+- Saves and restores the main window's position, size, and state between launches.
 - Stores the WebView2 user data under `%LOCALAPPDATA%\KoboReader`.
 
 ## Requirements
@@ -116,7 +117,8 @@ The application does not package Kobo credentials. Authentication is handled by 
 | `KoboReader.csproj` | WPF project configuration and WebView2 package reference. |
 | `App.xaml` / `App.xaml.cs` | Application resources and startup configuration. |
 | `MainWindow.xaml` | Main window and embedded WebView2 control. |
-| `MainWindow.xaml.cs` | WebView2 initialization and navigation behavior. |
+| `MainWindow.xaml.cs` | WebView2 initialization, navigation behavior, and window settings persistence. |
+| `WindowsSettings.cs` | Model used to serialize the saved window settings. |
 | `Icons/favicon.ico` | Application and window icon. |
 
 ## Configuration
@@ -128,6 +130,8 @@ The WebView2 profile is stored in the per-user directory:
 ```text
 %LOCALAPPDATA%\KoboReader
 ```
+
+Window position, size, and state are saved in `window.json` within that directory. If the saved settings are invalid or need to be reset, delete `%LOCALAPPDATA%\KoboReader\window.json` while the application is closed.
 
 Delete that directory to clear the application's local WebView2 profile and sign-in state.
 
