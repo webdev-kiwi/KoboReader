@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.Json;
 using System.Windows;
 
 namespace KoboReader;
@@ -11,6 +12,8 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
+        RestoreWindowSettings();
 
         Loaded += MainWindow_Loaded;
     }
@@ -46,5 +49,63 @@ public partial class MainWindow : Window
             FileName = e.Uri,
             UseShellExecute = true
         });
+    }
+
+    private readonly string settingsPath =
+    Path.Combine(
+        Environment.GetFolderPath(
+            Environment.SpecialFolder.LocalApplicationData),
+        "KoboReader",
+        "window.json");
+
+    protected override void OnClosing(
+    System.ComponentModel.CancelEventArgs e)
+    {
+        base.OnClosing(e);
+
+        Directory.CreateDirectory(
+            Path.GetDirectoryName(settingsPath)!);
+
+        var bounds = WindowState == WindowState.Normal
+            ? RestoreBounds
+            : RestoreBounds;
+
+        var settings = new WindowSettings
+        {
+            Left = bounds.Left,
+            Top = bounds.Top,
+            Width = bounds.Width,
+            Height = bounds.Height,
+            State = WindowState.ToString()
+        };
+
+        File.WriteAllText(
+            settingsPath,
+            JsonSerializer.Serialize(settings));
+    }
+
+    private void RestoreWindowSettings()
+    {
+        if (!File.Exists(settingsPath))
+            return;
+
+        var settings =
+            JsonSerializer.Deserialize<WindowSettings>(
+                File.ReadAllText(settingsPath));
+
+        if (settings == null)
+            return;
+
+        Left = settings.Left;
+        Top = settings.Top;
+        Width = settings.Width;
+        Height = settings.Height;
+
+        if (Enum.TryParse(
+            settings.State,
+            out WindowState state))
+        {
+            WindowState = state;
+        }
     }
 }
