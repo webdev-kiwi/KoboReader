@@ -7,4 +7,5 @@ public class WindowSettings
     public double Width { get; set; }
     public double Height { get; set; }
     public string State { get; set; } = "Normal";
+    public bool Fullscreen { get; set; }
 }
