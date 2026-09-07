@@ -32,8 +32,7 @@ public partial class MainWindow : Window
 
         Browser.CoreWebView2.NewWindowRequested += Browser_NewWindowRequested;
 
-        Browser.Source =
-            new Uri("https://read.kobobooks.com/");
+        Browser.Source = new Uri("https://www.kobo.com/nz/en/library/books");
     }
 
     private void Browser_NewWindowRequested(
