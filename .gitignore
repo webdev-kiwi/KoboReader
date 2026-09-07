@@ -5,7 +5,8 @@
 
 # Build output
 bin/
-o*j/
+obj/
+publish/
 
 # Rider
 .idea/
