@@ -170,6 +170,12 @@ public partial class MainWindow : Window
         {
             ToggleFullscreen();
         }
+
+        if (Keyboard.Modifiers == ModifierKeys.Control
+            && e.Key == Key.R)
+        {
+            Browser.Reload();
+        }
     }
 
     private void ToggleFullscreen()
