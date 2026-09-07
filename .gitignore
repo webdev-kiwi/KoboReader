@@ -1,0 +1,20 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build output
+bin/
+o*j/
+
+# Rider
+.idea/
+
+# Logs
+*.log
+
+* NuGet
+packages/
+
+# Windows*Thumbs.db
+Desktop.ini
