@@ -12,6 +12,7 @@ namespace KoboReader;
 
 public partial class MainWindow : Window
 {
+    private const string KoboLibraryUrl = "https://www.kobo.com/nz/en/library/books";
     private WindowState _previousWindowState;
     private WindowStyle _previousWindowStyle;
     private ResizeMode _previousResizeMode;
@@ -48,7 +49,7 @@ public partial class MainWindow : Window
 
         Browser.CoreWebView2.NewWindowRequested += Browser_NewWindowRequested;
 
-        Browser.Source = new Uri("https://www.kobo.com/nz/en/library/books");
+        Browser.Source = new Uri(KoboLibraryUrl);
 
         if (_startInFullscreen)
         {
@@ -176,6 +177,12 @@ public partial class MainWindow : Window
         {
             Browser.Reload();
         }
+
+        if (Keyboard.Modifiers == ModifierKeys.Control
+            && e.Key == Key.H)
+        {
+            Browser.Source = new Uri(KoboLibraryUrl);
+        }
     }
 
     private void ToggleFullscreen()
@@ -203,6 +210,7 @@ public partial class MainWindow : Window
             Width = screen.Bounds.Width;
             Height = screen.Bounds.Height;
 
+            MainMenu.Visibility = Visibility.Collapsed;
             _isFullscreen = true;
         }
         else
@@ -220,7 +228,36 @@ public partial class MainWindow : Window
 
             WindowState = _previousWindowState;
 
+            MainMenu.Visibility = Visibility.Visible;
             _isFullscreen = false;
         }
+    }
+
+    private void Exit_Click(
+        object sender,
+        RoutedEventArgs e)
+    {
+        Close();
+    }
+
+    private void Fullscreen_Click(
+        object sender,
+        RoutedEventArgs e)
+    {
+        ToggleFullscreen();
+    }
+
+    private void Refresh_Click(
+        object sender,
+        RoutedEventArgs e)
+    {
+        Browser.Reload();
+    }
+
+    private void Home_Click(
+        object sender,
+        RoutedEventArgs e)
+    {
+        Browser.Source = new Uri(KoboLibraryUrl);
     }
 }

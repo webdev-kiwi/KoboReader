@@ -8,8 +8,38 @@
     Width="1200"
     Height="900">
 
-    <Grid>
-        <wv2:WebView2 Name="Browser"/>
-    </Grid>
+    <DockPanel>
+
+        <Menu x:Name="MainMenu"
+            DockPanel.Dock="Top">
+
+            <MenuItem Header="_File">
+                <MenuItem Header="E_xit"
+                      Click="Exit_Click" />
+            </MenuItem>
+
+            <MenuItem Header="_View">
+                <MenuItem Header="_Refresh"
+                    Click="Refresh_Click"
+                    InputGestureText="Ctrl+R" />
+
+                <MenuItem Header="_Home"
+                    Click="Home_Click"
+                    InputGestureText="Ctrl+H" />
+
+                <Separator />
+
+                <MenuItem Header="_Fullscreen"
+                    Click="Fullscreen_Click"
+                    InputGestureText="F11" />
+            </MenuItem>
+
+        </Menu>
+
+        <Grid>
+            <wv2:WebView2 Name="Browser" />
+        </Grid>
+
+    </DockPanel>
 
 </Window>
